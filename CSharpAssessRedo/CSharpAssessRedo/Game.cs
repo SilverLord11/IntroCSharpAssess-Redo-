@@ -2,11 +2,19 @@
 
 namespace CSharpAssessRedo
 {
-    class Game
+    internal class Game
     {
-        static void Main(string[] args)
+        internal static void Play()
         {
-            Console.WriteLine("Hello World!");
+            bool GameOpen = true;
+
+            Util.Prompt("Welcome to the RPG Store");
+            while (GameOpen)
+            {
+
+
+            }
+
         }
     }
 }
