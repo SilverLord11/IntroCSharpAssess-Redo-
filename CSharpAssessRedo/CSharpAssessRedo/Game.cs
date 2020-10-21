@@ -34,6 +34,7 @@ namespace CSharpAssessRedo
 
             while (GameOpen)
             {
+                //These are the commands and what is required of the program when they are entered
                 string cmd = Util.Ask("What are you buyin'?").ToLower();
                 switch (cmd)
                 {
@@ -95,7 +96,8 @@ namespace CSharpAssessRedo
             }
 
         }
-
+        //These are the methods that follow the commands
+        #region 
         static void Help()
         {
             Util.Prompt("help shows the text below");
@@ -131,7 +133,9 @@ namespace CSharpAssessRedo
                 csv.WriteRecords(_items);
             }
         }
-
+        #endregion // Command Methods
+        
+        //Here is where the inventory for both the player and the store is loaded
         private static List<Item> LoadInventory(string _fileName, bool _generateIfNull=false)
         {
             List<Item> tmpItems = new List<Item>();
@@ -170,7 +174,7 @@ namespace CSharpAssessRedo
                             default:
                                 break;
                         }
-                        //it = Game.masterCatalogue.First<Item>(xxxx => xxxx.ItemId == it.ItemId);
+                        
                         tmpItems.Add(it);
                     }
                 }
