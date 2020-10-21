@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30406.217
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpAssessRedo", "CSharpAssessRedo\CSharpAssessRedo.csproj", "{0B848E1C-BA00-43D3-94C5-0A510C7A7423}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0B848E1C-BA00-43D3-94C5-0A510C7A7423}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B848E1C-BA00-43D3-94C5-0A510C7A7423}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B848E1C-BA00-43D3-94C5-0A510C7A7423}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B848E1C-BA00-43D3-94C5-0A510C7A7423}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CB50B91E-556B-4A28-8322-A5EFE6ECDBCA}
+	EndGlobalSection
+EndGlobal
