@@ -82,7 +82,8 @@ namespace CSharpAssessRedo
                             if (storeInventory[i].ItemId == choice1)
                             {
                                 playerInventory.Add(storeInventory[i]);
-                                playerGold -= ItemIDitemCost;
+                                playerGold -= Item.itemCost;
+                                playerGold = File.WriteAllText("PlayerWallet.txt");
                             }
                         }
                         Util.Prompt($"Thank ya for ya business");
