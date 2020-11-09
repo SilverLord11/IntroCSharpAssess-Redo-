@@ -76,17 +76,20 @@ namespace CSharpAssessRedo
                             int.TryParse(itemIDStr, out choice1);
                         }
                         Util.Prompt("-----------");
-                        ShowInventory(playerInventory.ToArray());
                         for(int i = 0; i < 5; i++)
                         {
                             if (storeInventory[i].ItemId == choice1)
                             {
                                 playerInventory.Add(storeInventory[i]);
                                 playerGold -= storeInventory[i].ItemCost;
-                                playerGold = File.WriteAllText("PlayerWallet.txt");
+                                playerGold.ToString(tmpPlayerGoldString);
+                                File.WriteAllText("PlayerWallet.Txt", tmpPlayerGoldString);
+                                int.TryParse(tmpPlayerGoldString, out playerGold);
                             }
                         }
+
                         Util.Prompt($"Thank ya for ya business");
+                        Util.Prompt($"You now have {playerGold} money.");
                         break;
 
                     default:
