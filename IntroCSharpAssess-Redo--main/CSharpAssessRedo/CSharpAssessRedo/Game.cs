@@ -76,11 +76,12 @@ namespace CSharpAssessRedo
                             int.TryParse(itemIDStr, out choice1);
                         }
                         Util.Prompt("-----------");
-                        for(int i = 0; i < 5; i++)
+                        for(int i = 0; i < storeInventory.Length - 1; i++)
                         {
                             if (storeInventory[i].ItemId == choice1)
                             {
                                 playerInventory.Add(storeInventory[i]);
+                                
                                 List<Item> tmpStoreInventory;
                                 tmpStoreInventory = LoadInventory("store.csv", true);
                                 tmpStoreInventory = GetFullDetails(tmpStoreInventory.ToArray()).ToList<Item>();
@@ -112,7 +113,7 @@ namespace CSharpAssessRedo
                             int.TryParse(itemIDStr, out choice2);
                         }
                         Util.Prompt("-----------");
-                        for (int i = 0; i < 5; i++)
+                        for (int i = 0; i < playerInventory.Count - 1; i++)
                         {
                             if (playerInventory[i].ItemId == choice2)
                             {
@@ -122,6 +123,7 @@ namespace CSharpAssessRedo
                                 tmpStoreInventory.Add(playerInventory[i]);
                                 storeInventory = tmpStoreInventory.ToArray();
 
+                                playerInventory.Remove(playerInventory[i]);
 
                                 storeGold -= playerInventory[i].ItemCost;
                                 tmpStoreGoldString = storeGold.ToString();
