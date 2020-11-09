@@ -100,7 +100,32 @@ namespace CSharpAssessRedo
                     case "sell":
                         Util.Prompt("What would ya like to sell?");
                         ShowInventory(playerInventory.ToArray());
+                        int choice2 = 0;
+                        while (choice2 == 0)
+                        {
+                            string itemIDStr = Util.Ask("Item ID>");
+                            int.TryParse(itemIDStr, out choice2);
+                        }
+                        Util.Prompt("-----------");
+                        for (int i = 0; i < 5; i++)
+                        {
+                            if (playerInventory[i].ItemId == choice2)
+                            {
+                                storeInventory.Add(playerInventory[i]);
 
+                                storeGold -= playerInventory[i].ItemCost;
+                                tmpStoreGoldString = storeGold.ToString();
+                                File.WriteAllText("StoreWallet.Txt", tmpStoreGoldString);
+                                int.TryParse(tmpStoreGoldString, out storeGold);
+
+                                playerGold += playerInventory[i].ItemCost;
+                                tmpPlayerGoldString = playerGold.ToString();
+                                File.WriteAllText("PlayerWallet.txt", tmpPlayerGoldString);
+                                int.TryParse(tmpPlayerGoldString, out playerGold);
+                            }
+                        }
+
+                        Util.Prompt("Thank ya kindly");
                         break;
 
                     default:
