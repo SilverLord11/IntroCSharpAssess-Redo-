@@ -81,15 +81,26 @@ namespace CSharpAssessRedo
                             if (storeInventory[i].ItemId == choice1)
                             {
                                 playerInventory.Add(storeInventory[i]);
+                                
                                 playerGold -= storeInventory[i].ItemCost;
                                 tmpPlayerGoldString = playerGold.ToString();
                                 File.WriteAllText("PlayerWallet.Txt", tmpPlayerGoldString);
                                 int.TryParse(tmpPlayerGoldString, out playerGold);
+                                
+                                storeGold += storeInventory[i].ItemCost;
+                                tmpStoreGoldString = storeGold.ToString();
+                                File.WriteAllText("StoreWallet.txt", tmpStoreGoldString);
+                                int.TryParse(tmpStoreGoldString, out storeGold);
                             }
                         }
 
                         Util.Prompt($"Thank ya for ya business");
-                        Util.Prompt($"You now have {playerGold} money.");
+                        break;
+
+                    case "sell":
+                        Util.Prompt("What would ya like to sell?");
+                        ShowInventory(playerInventory.ToArray());
+
                         break;
 
                     default:
@@ -103,11 +114,12 @@ namespace CSharpAssessRedo
         #region 
         static void Help()
         {
-            Util.Prompt("help shows the text below");
-            Util.Prompt("show inventory, will display the store's stock");
-            Util.Prompt("my wares, will show you your own inventory");
-            Util.Prompt("Buy gives you the chance of gaining some of my stock, at a fee, of course.");
-            Util.Prompt("and quit beseeches us to part");
+            Util.Prompt("help shows the text below,");
+            Util.Prompt("show inventory, will display the store's stock,");
+            Util.Prompt("my wares, will show you your own inventory,");
+            Util.Prompt("buy gives you the chance of gaining some of my stock, (at a fee, of course)");
+            Util.Prompt("sell gives me the opportunity to aquire some of your spoils at market price,");
+            Util.Prompt("and quit beseeches us to part.");
         }
 
         static Item[] GetFullDetails(Item[] _items)
