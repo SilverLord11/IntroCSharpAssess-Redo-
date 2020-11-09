@@ -29,11 +29,19 @@ namespace CSharpAssessRedo
             playerInventory = GetFullDetails(playerInventory.ToArray()).ToList<Item>();
 
             Util.Prompt("Please, Enter my Humble Shop...", true);
-
+            int playerGold;
+            string tmpPlayerGoldString = File.ReadAllText("PlayerWallet.txt");
+            int.TryParse(tmpPlayerGoldString, out playerGold);
+            int storeGold;
+            string tmpStoreGoldString = File.ReadAllText("StoreWallet.txt");
+            int.TryParse(tmpStoreGoldString, out storeGold);
             Help();
 
             while (GameOpen)
             {
+                Util.Prompt($"I've got {storeGold} buckaroos");
+                Util.Prompt($"You have {playerGold} moolah");
+                
                 //These are the commands and what is required of the program when they are entered
                 string cmd = Util.Ask("What are you buyin'?").ToLower();
                 switch (cmd)
@@ -58,7 +66,7 @@ namespace CSharpAssessRedo
                         ShowInventory(playerInventory.ToArray());
                         break;
 
-                    case "trade":
+                    case "buy":
                         ShowInventory(storeInventory);
                         Util.Prompt("Which ID number were you lookin' at?");
                         int choice1 = 0;
@@ -69,21 +77,12 @@ namespace CSharpAssessRedo
                         }
                         Util.Prompt("-----------");
                         ShowInventory(playerInventory.ToArray());
-
-                        Util.Prompt("Well, as they say, an eye for an eye. Which ID number are you thinkin' to give in return?");
-                        int choice2 = 0;
-                        while (choice2 == 0)
-                        {
-                            string itemIDStr = Util.Ask("Item ID>");
-                            int.TryParse(itemIDStr, out choice2);
-                        }
                         for(int i = 0; i < 5; i++)
                         {
                             if (storeInventory[i].ItemId == choice1)
                             {
                                 playerInventory.Add(storeInventory[i]);
-                                storeInventory[i] = playerInventory.First<Item>(iiii => iiii.ItemId == choice2);
-                                playerInventory.RemoveAll(iiii => iiii.ItemId == choice2);
+                                playerGold -= ItemIDitemCost;
                             }
                         }
                         Util.Prompt($"Thank ya for ya business");
@@ -103,7 +102,7 @@ namespace CSharpAssessRedo
             Util.Prompt("help shows the text below");
             Util.Prompt("show inventory, will display the store's stock");
             Util.Prompt("my wares, will show you your own inventory");
-            Util.Prompt("Trade allows us to barter our stocks");
+            Util.Prompt("Buy gives you the chance of gaining some of my stock, at a fee, of course.");
             Util.Prompt("and quit beseeches us to part");
         }
 
