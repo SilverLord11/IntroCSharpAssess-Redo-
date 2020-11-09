@@ -81,7 +81,12 @@ namespace CSharpAssessRedo
                             if (storeInventory[i].ItemId == choice1)
                             {
                                 playerInventory.Add(storeInventory[i]);
-                                
+                                List<Item> tmpStoreInventory;
+                                tmpStoreInventory = LoadInventory("store.csv", true);
+                                tmpStoreInventory = GetFullDetails(tmpStoreInventory.ToArray()).ToList<Item>();
+                                tmpStoreInventory.Remove(storeInventory[i]);
+                                storeInventory = tmpStoreInventory.ToArray();
+
                                 playerGold -= storeInventory[i].ItemCost;
                                 tmpPlayerGoldString = playerGold.ToString();
                                 File.WriteAllText("PlayerWallet.Txt", tmpPlayerGoldString);
@@ -111,7 +116,12 @@ namespace CSharpAssessRedo
                         {
                             if (playerInventory[i].ItemId == choice2)
                             {
-                                storeInventory.Add(playerInventory[i]);
+                                List<Item> tmpStoreInventory;
+                                tmpStoreInventory = LoadInventory("store.csv", true);
+                                tmpStoreInventory = GetFullDetails(tmpStoreInventory.ToArray()).ToList<Item>();
+                                tmpStoreInventory.Add(playerInventory[i]);
+                                storeInventory = tmpStoreInventory.ToArray();
+
 
                                 storeGold -= playerInventory[i].ItemCost;
                                 tmpStoreGoldString = storeGold.ToString();
@@ -226,7 +236,7 @@ namespace CSharpAssessRedo
                 if (_generateIfNull)
                 {
                     List<Item> tmpMasterList = Game.masterCatalogue.ToList<Item>();
-                    for(int i =0; i < 5; i++)
+                    for (int i = 0; i < 5; i++)
                     {
                         int r = rpgRandom.Next(0, tmpMasterList.Count);
                         tmpItems.Add(tmpMasterList.ElementAt(r));
