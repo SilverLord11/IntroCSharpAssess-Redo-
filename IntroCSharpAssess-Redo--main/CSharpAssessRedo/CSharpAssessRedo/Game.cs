@@ -18,6 +18,16 @@ namespace CSharpAssessRedo
             bool GameOpen = true;
 
             Util.Prompt("Welcome to the RPG Store");
+            string login = Util.Ask("please enter your name:");
+            
+            int playerGold;
+            string tmpPlayerGoldString = File.ReadAllText("PlayerWallet.txt");
+            int.TryParse(tmpPlayerGoldString, out playerGold);
+
+            int storeGold;
+            string tmpStoreGoldString = File.ReadAllText("StoreWallet.txt");
+            int.TryParse(tmpStoreGoldString, out storeGold);
+        
             //Initialize
             Item[] storeInventory;
             List<Item> playerInventory;
@@ -29,12 +39,8 @@ namespace CSharpAssessRedo
             playerInventory = GetFullDetails(playerInventory.ToArray()).ToList<Item>();
 
             Util.Prompt("Please, Enter my Humble Shop...", true);
-            int playerGold;
-            string tmpPlayerGoldString = File.ReadAllText("PlayerWallet.txt");
-            int.TryParse(tmpPlayerGoldString, out playerGold);
-            int storeGold;
-            string tmpStoreGoldString = File.ReadAllText("StoreWallet.txt");
-            int.TryParse(tmpStoreGoldString, out storeGold);
+            
+
             Help();
 
             while (GameOpen)
