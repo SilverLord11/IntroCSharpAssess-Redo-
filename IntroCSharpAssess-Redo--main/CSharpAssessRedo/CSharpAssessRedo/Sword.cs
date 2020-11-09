@@ -20,10 +20,10 @@ namespace CSharpAssessRedo
         {
             base.PrintDetails();
             Util.Prompt($"Think of these guys as a Jack of all trades, master of some");
-            Util.Prompt($"Her damage is {damage}");
-            Util.Prompt($"she has a range of {range} units");
-            Util.Prompt($"she can parry up to {defense} units");
-            Util.Prompt($"And her healing factor is {healing}");
+            Util.Prompt($"Her damage is {damage},");
+            Util.Prompt($"she has a range of {range} units,");
+            Util.Prompt($"she can parry up to {defense} units.");
+            Util.Prompt($"And her healing factor is {healing}.");
         }
     }
 }

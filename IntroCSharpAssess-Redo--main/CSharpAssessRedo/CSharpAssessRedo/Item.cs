@@ -13,6 +13,11 @@
         public string ItemName { get => itemName; set => itemName = value; }
         public int ItemCost { get => itemCost; set => itemCost = value; }
 
+        public Item()
+        {
+
+        }
+
         public Item(int itemId, string itemType, string itemName, int itemCost)
         {
             ItemId = itemId;

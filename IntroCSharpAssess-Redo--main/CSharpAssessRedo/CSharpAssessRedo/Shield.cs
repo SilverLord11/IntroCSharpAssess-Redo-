@@ -18,7 +18,7 @@ namespace CSharpAssessRedo
         {
             base.PrintDetails();
             Util.Prompt($"Now these guys don't do damage, but don't let that fool ya,");
-            Util.Prompt($"because they come with nice pack of armor, this one goes for {defense} units");
+            Util.Prompt($"because they come with nice pack of armor, this one goes for {defense} units.");
             Util.Prompt($"This baby here cab also heal ya for {healing} units");
         }
     }

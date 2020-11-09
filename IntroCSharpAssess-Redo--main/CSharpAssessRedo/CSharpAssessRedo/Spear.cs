@@ -20,8 +20,8 @@ namespace CSharpAssessRedo
         {
             base.PrintDetails();
             Util.Prompt($"These folks aren't really different from the Swords except for their added range, but that means generally less damage.");
-            Util.Prompt($"Her damage is {damage}");
-            Util.Prompt($"Her range is {range}");
+            Util.Prompt($"Her damage is {damage}.");
+            Util.Prompt($"Her range is {range}.");
             Util.Prompt($"This baby can take a hit of up to {defense} units, and she has a healing factor of {healing} units.");
         }
     }

@@ -20,8 +20,8 @@ namespace CSharpAssessRedo
         {
             base.PrintDetails();
             Util.Prompt($"you want to hit your enemies from afar? I don' blame ya!");
-            Util.Prompt($"Her damage characteristic is {damage}");
-            Util.Prompt($"and she can shoot a distance of up to {range} units");
+            Util.Prompt($"Her damage characteristic is {damage},");
+            Util.Prompt($"and she can shoot a distance of up to {range} units.");
             Util.Prompt($"She also can protect you {defense} units, and can heal ya up to {healing} units.");
         }
     }
