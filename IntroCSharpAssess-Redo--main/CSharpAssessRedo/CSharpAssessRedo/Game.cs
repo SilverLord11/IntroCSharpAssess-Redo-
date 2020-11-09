@@ -82,7 +82,7 @@ namespace CSharpAssessRedo
                             {
                                 playerInventory.Add(storeInventory[i]);
                                 playerGold -= storeInventory[i].ItemCost;
-                                playerGold.ToString(tmpPlayerGoldString);
+                                tmpPlayerGoldString = playerGold.ToString();
                                 File.WriteAllText("PlayerWallet.Txt", tmpPlayerGoldString);
                                 int.TryParse(tmpPlayerGoldString, out playerGold);
                             }
