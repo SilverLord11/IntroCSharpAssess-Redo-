@@ -24,22 +24,19 @@ namespace CSharpAssessRedo
             File.WriteAllText(login + ".txt", login);
 
             List<Item> playerInventory = new List<Item>();
-            string tmpPlayerGoldString = File.ReadAllText("PlayerWallet.txt");
-
             if (File.Exists(login + "Inventory.csv"))
             {
-                File.ReadAllText(login + "Inventory.csv");
                 playerInventory = LoadInventory(login + "Inventory.csv", true);
                 playerInventory = GetFullDetails(playerInventory.ToArray()).ToList<Item>();
             }
             else
             {
-                File.WriteAllText(login + "Inventory.csv", login);
+                InventorySave(playerInventory.ToArray(), login + "Inventory.csv");
                 playerInventory = LoadInventory(login + "Inventory.csv", true);
                 playerInventory = GetFullDetails(playerInventory.ToArray()).ToList<Item>();
             }
 
-
+            string tmpPlayerGoldString = File.ReadAllText("PlayerWallet.txt");
             if (File.Exists(login + "Wallet.txt"))
             {
                 File.ReadAllText(login + "wallet.txt");
