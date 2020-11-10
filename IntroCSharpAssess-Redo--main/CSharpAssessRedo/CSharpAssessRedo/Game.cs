@@ -31,6 +31,7 @@ namespace CSharpAssessRedo
             }
             else
             {
+                File.CreateText(login + ".csv");
                 InventorySave(playerInventory.ToArray(), login + "Inventory.csv");
                 playerInventory = LoadInventory(login + "Inventory.csv", true);
                 playerInventory = GetFullDetails(playerInventory.ToArray()).ToList<Item>();
