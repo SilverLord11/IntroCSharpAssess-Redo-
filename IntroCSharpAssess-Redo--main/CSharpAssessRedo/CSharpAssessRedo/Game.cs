@@ -21,7 +21,6 @@ namespace CSharpAssessRedo
 
             Util.Prompt("Welcome to the RPG Store");
             string login = Util.Ask("What is your name?");
-            File.WriteAllText(login + ".txt", login);// Not really necessary to create a file based on the players name to store the players name.
 
             List<Item> playerInventory = new List<Item>();
             if (File.Exists(login + "Inventory.csv"))
@@ -31,18 +30,9 @@ namespace CSharpAssessRedo
             }
             else
             {
-                //It can help to identify the objective of your code (and even comment it so you can remind yourself)
-                //For instance here the goal is to create a new Inventory File for your player as one doesn't already exist.
-                //For an inventory CSV file to properly function and be readable it should effectively reflect an empty array or list
-                //Here you create just an empty text file which as on line 24 unnecessary as InventorySave should automativelly create the 
-                //properly formatted save file.
-                File.CreateText(login + ".csv");
-                InventorySave(playerInventory.ToArray(), login + "Inventory.csv");
-                //Strictly speaking you shouldn't need to load the inventory back into playerInventory as you only just saved that lists contents
-                //and it was an empty list anyway, so the next 2 lines are unnecesary
-
                 playerInventory = LoadInventory(login + "Inventory.csv", true);
                 playerInventory = GetFullDetails(playerInventory.ToArray()).ToList<Item>();
+                InventorySave(playerInventory.ToArray(), login + "Inventory.csv");
             }
 
             string tmpPlayerGoldString = File.ReadAllText("PlayerWallet.txt");
@@ -53,7 +43,9 @@ namespace CSharpAssessRedo
             }
             else
             {
+               
                 File.WriteAllText(login + "Wallet.txt", "500");
+                tmpPlayerGoldString = File.ReadAllText(login + "Wallet.txt");
                 int.TryParse(tmpPlayerGoldString, out playerGold);
             }
             
@@ -69,6 +61,8 @@ namespace CSharpAssessRedo
 
             storeInventory = LoadInventory("store.csv", true).ToArray();
             storeInventory = GetFullDetails(storeInventory);
+
+            
 
             Util.Prompt("Please, Enter my Humble Shop...", true);
             
@@ -86,7 +80,7 @@ namespace CSharpAssessRedo
                 {
                     case "quit":
                         InventorySave(storeInventory, "store.csv");
-                        InventorySave(playerInventory.ToArray(), "player.csv");
+                        InventorySave(playerInventory.ToArray(), login + "Inventory.csv");
                         GameOpen = false;
 
                         break;
