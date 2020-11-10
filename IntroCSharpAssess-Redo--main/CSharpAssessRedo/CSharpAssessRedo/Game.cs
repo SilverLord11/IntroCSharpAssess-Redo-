@@ -112,27 +112,35 @@ namespace CSharpAssessRedo
                         {
                             if (storeInventory[i].ItemId == choice1)
                             {
-                                playerInventory.Add(storeInventory[i]);
-                                
-                                List<Item> tmpStoreInventory;
-                                tmpStoreInventory = LoadInventory("store.csv", true);
-                                tmpStoreInventory = GetFullDetails(tmpStoreInventory.ToArray()).ToList<Item>();
-                                tmpStoreInventory.Remove(storeInventory[i]);
-                                storeInventory = tmpStoreInventory.ToArray();
 
-                                playerGold -= storeInventory[i].ItemCost;
-                                tmpPlayerGoldString = playerGold.ToString();
-                                File.WriteAllText("PlayerWallet.Txt", tmpPlayerGoldString);
-                                int.TryParse(tmpPlayerGoldString, out playerGold);
-                                
-                                storeGold += storeInventory[i].ItemCost;
-                                tmpStoreGoldString = storeGold.ToString();
-                                File.WriteAllText("StoreWallet.txt", tmpStoreGoldString);
-                                int.TryParse(tmpStoreGoldString, out storeGold);
+
+                                if (playerGold < storeInventory[i].ItemCost || playerGold <= 0 )
+                                {
+                                    Util.Prompt("Sorry, it looks like ya lack the funds to pay for it, and this ain't a Soup Kitchen");
+                                }
+                                else
+                                {
+                                    playerInventory.Add(storeInventory[i]);
+
+                                    List<Item> tmpStoreInventory;
+                                    tmpStoreInventory = LoadInventory("store.csv", true);
+                                    tmpStoreInventory = GetFullDetails(tmpStoreInventory.ToArray()).ToList<Item>();
+                                    tmpStoreInventory.Remove(storeInventory[i]);
+                                    storeInventory = tmpStoreInventory.ToArray();
+
+                                    playerGold -= storeInventory[i].ItemCost;
+                                    tmpPlayerGoldString = playerGold.ToString();
+                                    File.WriteAllText("PlayerWallet.Txt", tmpPlayerGoldString);
+                                    int.TryParse(tmpPlayerGoldString, out playerGold);
+
+                                    storeGold += storeInventory[i].ItemCost;
+                                    tmpStoreGoldString = storeGold.ToString();
+                                    File.WriteAllText("StoreWallet.txt", tmpStoreGoldString);
+                                    int.TryParse(tmpStoreGoldString, out storeGold);
+                                    Util.Prompt($"Thank ya for ya business");
+                                }
                             }
                         }
-
-                        Util.Prompt($"Thank ya for ya business");
                         break;
 
                     case "sell":
@@ -149,27 +157,33 @@ namespace CSharpAssessRedo
                         {
                             if (playerInventory[i].ItemId == choice2)
                             {
-                                List<Item> tmpStoreInventory;
-                                tmpStoreInventory = LoadInventory("store.csv", true);
-                                tmpStoreInventory = GetFullDetails(tmpStoreInventory.ToArray()).ToList<Item>();
-                                tmpStoreInventory.Add(playerInventory[i]);
-                                storeInventory = tmpStoreInventory.ToArray();
+                                if(storeGold < playerInventory[i].ItemCost || storeGold <= 0)
+                                {
+                                    Util.Prompt("Well, schucks, looks like I don't have enough for that, and I ain't takin' for free.");
+                                }
+                                else
+                                {
+                                    List<Item> tmpStoreInventory;
+                                    tmpStoreInventory = LoadInventory("store.csv", true);
+                                    tmpStoreInventory = GetFullDetails(tmpStoreInventory.ToArray()).ToList<Item>();
+                                    tmpStoreInventory.Add(playerInventory[i]);
+                                    storeInventory = tmpStoreInventory.ToArray();
 
-                                playerInventory.Remove(playerInventory[i]);
+                                    playerInventory.Remove(playerInventory[i]);
 
-                                storeGold -= playerInventory[i].ItemCost;
-                                tmpStoreGoldString = storeGold.ToString();
-                                File.WriteAllText("StoreWallet.Txt", tmpStoreGoldString);
-                                int.TryParse(tmpStoreGoldString, out storeGold);
+                                    storeGold -= playerInventory[i].ItemCost;
+                                    tmpStoreGoldString = storeGold.ToString();
+                                    File.WriteAllText("StoreWallet.Txt", tmpStoreGoldString);
+                                    int.TryParse(tmpStoreGoldString, out storeGold);
 
-                                playerGold += playerInventory[i].ItemCost;
-                                tmpPlayerGoldString = playerGold.ToString();
-                                File.WriteAllText("PlayerWallet.txt", tmpPlayerGoldString);
-                                int.TryParse(tmpPlayerGoldString, out playerGold);
+                                    playerGold += playerInventory[i].ItemCost;
+                                    tmpPlayerGoldString = playerGold.ToString();
+                                    File.WriteAllText("PlayerWallet.txt", tmpPlayerGoldString);
+                                    int.TryParse(tmpPlayerGoldString, out playerGold);
+                                    Util.Prompt("Thank ya kindly");
+                                }
                             }
                         }
-
-                        Util.Prompt("Thank ya kindly");
                         break;
 
                     default:
