@@ -23,7 +23,7 @@ namespace CSharpAssessRedo
             string login = Util.Ask("What is your name?");
             File.WriteAllText(login + ".txt", login);
 
-            List<Item> list = new List<Item>;
+            List<Item> list = new List<Item>();
             List<Item> playerInventory = list;
             string tmpPlayerGoldString = File.ReadAllText("PlayerWallet.txt");
 
@@ -34,9 +34,9 @@ namespace CSharpAssessRedo
             else
             {
                 File.WriteAllText(login + "Inventory.csv", login);
-                playerInventory = LoadInventory(login + "Inventory.csv", true);
-                playerInventory = GetFullDetails(playerInventory.ToArray()).ToList<Item>();
             }
+            playerInventory = LoadInventory(login + "Inventory.csv", true);
+            playerInventory = GetFullDetails(playerInventory.ToArray()).ToList<Item>();
 
             if (File.Exists(login + "Wallet.txt"))
             {
