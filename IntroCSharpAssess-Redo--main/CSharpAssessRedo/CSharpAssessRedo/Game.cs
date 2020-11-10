@@ -17,26 +17,49 @@ namespace CSharpAssessRedo
         {
             bool GameOpen = true;
 
-            Util.Prompt("Welcome to the RPG Store");
-            string login = Util.Ask("please enter your name:");
-            
-            int playerGold;
-            string tmpPlayerGoldString = File.ReadAllText("PlayerWallet.txt");
-            int.TryParse(tmpPlayerGoldString, out playerGold);
+            int playerGold = 0;
 
+            Util.Prompt("Welcome to the RPG Store");
+            string login = Util.Ask("What is your name?");
+            File.WriteAllText(login + ".txt", login);
+
+            List<Item> list = new List<Item>;
+            List<Item> playerInventory = list;
+            string tmpPlayerGoldString = File.ReadAllText("PlayerWallet.txt");
+
+            if (File.Exists(login + "Inventory.csv"))
+            {
+                File.ReadAllText(login + "Inventory.csv");
+            }
+            else
+            {
+                File.WriteAllText(login + "Inventory.csv", login);
+                playerInventory = LoadInventory(login + "Inventory.csv", true);
+                playerInventory = GetFullDetails(playerInventory.ToArray()).ToList<Item>();
+            }
+
+            if (File.Exists(login + "Wallet.txt"))
+            {
+                File.ReadAllText(login + "wallet.txt");
+            }
+            else
+            {
+                File.WriteAllText(login + "Wallet.txt", tmpPlayerGoldString);
+                int.TryParse(tmpPlayerGoldString, out playerGold);
+            }
+
+            
+            
             int storeGold;
             string tmpStoreGoldString = File.ReadAllText("StoreWallet.txt");
             int.TryParse(tmpStoreGoldString, out storeGold);
         
             //Initialize
             Item[] storeInventory;
-            List<Item> playerInventory;
+            
 
             storeInventory = LoadInventory("store.csv", true).ToArray();
-            playerInventory = LoadInventory("player.csv", true);
-
             storeInventory = GetFullDetails(storeInventory);
-            playerInventory = GetFullDetails(playerInventory.ToArray()).ToList<Item>();
 
             Util.Prompt("Please, Enter my Humble Shop...", true);
             
