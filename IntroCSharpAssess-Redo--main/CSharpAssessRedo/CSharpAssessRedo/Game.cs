@@ -23,33 +23,36 @@ namespace CSharpAssessRedo
             string login = Util.Ask("What is your name?");
             File.WriteAllText(login + ".txt", login);
 
-            List<Item> list = new List<Item>();
-            List<Item> playerInventory = list;
+            List<Item> playerInventory = new List<Item>();
             string tmpPlayerGoldString = File.ReadAllText("PlayerWallet.txt");
 
             if (File.Exists(login + "Inventory.csv"))
             {
                 File.ReadAllText(login + "Inventory.csv");
+                playerInventory = LoadInventory(login + "Inventory.csv", true);
+                playerInventory = GetFullDetails(playerInventory.ToArray()).ToList<Item>();
             }
             else
             {
                 File.WriteAllText(login + "Inventory.csv", login);
+                playerInventory = LoadInventory(login + "Inventory.csv", true);
+                playerInventory = GetFullDetails(playerInventory.ToArray()).ToList<Item>();
             }
-            playerInventory = LoadInventory(login + "Inventory.csv", true);
-            playerInventory = GetFullDetails(playerInventory.ToArray()).ToList<Item>();
+
 
             if (File.Exists(login + "Wallet.txt"))
             {
                 File.ReadAllText(login + "wallet.txt");
+                int.TryParse(tmpPlayerGoldString, out playerGold);
             }
             else
             {
-                File.WriteAllText(login + "Wallet.txt", tmpPlayerGoldString);
+                File.WriteAllText(login + "Wallet.txt", "500");
                 int.TryParse(tmpPlayerGoldString, out playerGold);
             }
+            
+            
 
-            
-            
             int storeGold;
             string tmpStoreGoldString = File.ReadAllText("StoreWallet.txt");
             int.TryParse(tmpStoreGoldString, out storeGold);
