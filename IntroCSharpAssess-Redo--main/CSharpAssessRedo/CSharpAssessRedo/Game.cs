@@ -121,24 +121,6 @@ namespace CSharpAssessRedo
                                 }
                                 else
                                 {
-                                    //adds the selected Item to the player inventory
-                                    playerInventory.Add(storeInventory[i]);
-
-                                    //creates a temporary list for the store inventory to make modifications
-                                    List<Item> tmpStoreInventory;
-
-                                    //this loads the store inventory as the temporary to get the full details
-                                    tmpStoreInventory = LoadInventory("store.csv", true);
-
-                                    //this grabs the full details of the temporary list
-                                    tmpStoreInventory = GetFullDetails(tmpStoreInventory.ToArray()).ToList<Item>();
-                                    
-                                    //Removes the specified Item from the temporary list
-                                    tmpStoreInventory.Remove(storeInventory[i]);
-
-                                    //transfers the temporary list back into the original array form
-                                    storeInventory = tmpStoreInventory.ToArray();
-
                                     //this tells the system that playergold is equal too player gold - the item cost
                                     playerGold = playerGold - storeInventory[i].ItemCost;
 
@@ -156,6 +138,24 @@ namespace CSharpAssessRedo
 
                                     //this ensures that the store wallet is saved so that way it has money for the next time around
                                     File.WriteAllText("StoreWallet.txt", tmpStoreGoldString);
+
+                                    //adds the selected Item to the player inventory
+                                    playerInventory.Add(storeInventory[i]);
+
+                                    //creates a temporary list for the store inventory to make modifications
+                                    List<Item> tmpStoreInventory;
+
+                                    //this loads the store inventory as the temporary to get the full details
+                                    tmpStoreInventory = LoadInventory("store.csv", true);
+
+                                    //this grabs the full details of the temporary list
+                                    tmpStoreInventory = GetFullDetails(tmpStoreInventory.ToArray()).ToList<Item>();
+                                    
+                                    //Removes the specified Item from the temporary list
+                                    tmpStoreInventory.Remove(storeInventory[i]);
+
+                                    //transfers the temporary list back into the original array form
+                                    storeInventory = tmpStoreInventory.ToArray();
 
                                     //text response
                                     Util.Prompt($"Thank ya for ya business");
@@ -184,6 +184,14 @@ namespace CSharpAssessRedo
                                 }
                                 else
                                 {
+                                    storeGold = storeGold - playerInventory[i].ItemCost;
+                                    tmpStoreGoldString = storeGold.ToString();
+                                    File.WriteAllText("StoreWallet.Txt", tmpStoreGoldString);
+
+                                    playerGold = playerGold + playerInventory[i].ItemCost;
+                                    tmpPlayerGoldString = playerGold.ToString();
+                                    File.WriteAllText(login + "Wallet.txt", tmpPlayerGoldString);
+                                    
                                     List<Item> tmpStoreInventory;
                                     tmpStoreInventory = LoadInventory("store.csv", true);
                                     tmpStoreInventory = GetFullDetails(tmpStoreInventory.ToArray()).ToList<Item>();
@@ -191,16 +199,6 @@ namespace CSharpAssessRedo
                                     storeInventory = tmpStoreInventory.ToArray();
 
                                     playerInventory.Remove(playerInventory[i]);
-
-                                    storeGold = storeGold - playerInventory[i].ItemCost;
-                                    tmpStoreGoldString = storeGold.ToString();
-                                    File.WriteAllText("StoreWallet.Txt", tmpStoreGoldString);
-                                    int.TryParse(tmpStoreGoldString, out storeGold);
-
-                                    playerGold = playerGold + playerInventory[i].ItemCost;
-                                    tmpPlayerGoldString = playerGold.ToString();
-                                    File.WriteAllText(login + "Wallet.txt", tmpPlayerGoldString);
-                                    int.TryParse(tmpPlayerGoldString, out playerGold);
                                     Util.Prompt("Thank ya kindly");
                                 }
                             }
