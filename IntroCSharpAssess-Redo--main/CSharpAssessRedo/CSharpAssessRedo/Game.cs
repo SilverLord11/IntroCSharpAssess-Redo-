@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace CSharpAssessRedo
 {
@@ -120,23 +121,43 @@ namespace CSharpAssessRedo
                                 }
                                 else
                                 {
+                                    //adds the selected Item to the player inventory
                                     playerInventory.Add(storeInventory[i]);
 
+                                    //creates a temporary list for the store inventory to make modifications
                                     List<Item> tmpStoreInventory;
+
+                                    //this loads the store inventory as the temporary to get the full details
                                     tmpStoreInventory = LoadInventory("store.csv", true);
+
+                                    //this grabs the full details of the temporary list
                                     tmpStoreInventory = GetFullDetails(tmpStoreInventory.ToArray()).ToList<Item>();
+                                    
+                                    //Removes the specified Item from the temporary list
                                     tmpStoreInventory.Remove(storeInventory[i]);
+
+                                    //transfers the temporary list back into the original array form
                                     storeInventory = tmpStoreInventory.ToArray();
 
-                                    playerGold -= storeInventory[i].ItemCost;
-                                    tmpPlayerGoldString = playerGold.ToString();
-                                    File.WriteAllText("PlayerWallet.Txt", tmpPlayerGoldString);
-                                    int.TryParse(tmpPlayerGoldString, out playerGold);
+                                    //this tells the system that playergold is equal too player gold - the item cost
+                                    playerGold = playerGold - storeInventory[i].ItemCost;
 
-                                    storeGold += storeInventory[i].ItemCost;
+                                    //this declares the Temporary gold string that it is equal to the string version of player gold
+                                    tmpPlayerGoldString = playerGold.ToString();
+
+                                    //this writes down the temporary gold string for the player in their wallet for saving
+                                    File.WriteAllText(login + "Wallet.Txt", tmpPlayerGoldString);
+
+                                    //this does the exact same for player gold but instead for the store
+                                    storeGold = storeGold + storeInventory[i].ItemCost;
+
+                                    //this ensures the temporary gold string for the store is the same as the store gold
                                     tmpStoreGoldString = storeGold.ToString();
+
+                                    //this ensures that the store wallet is saved so that way it has money for the next time around
                                     File.WriteAllText("StoreWallet.txt", tmpStoreGoldString);
-                                    int.TryParse(tmpStoreGoldString, out storeGold);
+
+                                    //text response
                                     Util.Prompt($"Thank ya for ya business");
                                 }
                             }
@@ -171,14 +192,14 @@ namespace CSharpAssessRedo
 
                                     playerInventory.Remove(playerInventory[i]);
 
-                                    storeGold -= playerInventory[i].ItemCost;
+                                    storeGold = storeGold - playerInventory[i].ItemCost;
                                     tmpStoreGoldString = storeGold.ToString();
                                     File.WriteAllText("StoreWallet.Txt", tmpStoreGoldString);
                                     int.TryParse(tmpStoreGoldString, out storeGold);
 
-                                    playerGold += playerInventory[i].ItemCost;
+                                    playerGold = playerGold + playerInventory[i].ItemCost;
                                     tmpPlayerGoldString = playerGold.ToString();
-                                    File.WriteAllText("PlayerWallet.txt", tmpPlayerGoldString);
+                                    File.WriteAllText(login + "Wallet.txt", tmpPlayerGoldString);
                                     int.TryParse(tmpPlayerGoldString, out playerGold);
                                     Util.Prompt("Thank ya kindly");
                                 }
