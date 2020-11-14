@@ -20,9 +20,11 @@ namespace CSharpAssessRedo
 
             int playerGold = 0;
 
+            //This is the login to create a normal account
             Util.Prompt("Welcome to the RPG Store");
             string login = Util.Ask("What is your name?");
 
+            //this is how the inventory for the player is either created or loaded dependent on if a character is already made or not
             List<Item> playerInventory = new List<Item>();
             if (File.Exists(login + "Inventory.csv"))
             {
@@ -36,6 +38,7 @@ namespace CSharpAssessRedo
                 InventorySave(playerInventory.ToArray(), login + "Inventory.csv");
             }
 
+            //This makes the players wallet or loads it once again dependant on the player's character
             string tmpPlayerGoldString = File.ReadAllText("PlayerWallet.txt");
             if (File.Exists(login + "Wallet.txt"))
             {
@@ -51,7 +54,7 @@ namespace CSharpAssessRedo
             }
             
             
-
+            //this loads the store gold
             int storeGold;
             string tmpStoreGoldString = File.ReadAllText("StoreWallet.txt");
             int.TryParse(tmpStoreGoldString, out storeGold);
@@ -59,7 +62,7 @@ namespace CSharpAssessRedo
             //Initialize
             Item[] storeInventory;
             
-
+            //This loads the store's inventory
             storeInventory = LoadInventory("store.csv", true).ToArray();
             storeInventory = GetFullDetails(storeInventory);
 
@@ -108,60 +111,105 @@ namespace CSharpAssessRedo
                             string itemIDStr = Util.Ask("Item ID>");
                             int.TryParse(itemIDStr, out choice1);
                         }
-                        Util.Prompt("-----------");
-                        for(int i = 0; i < storeInventory.Length - 1; i++)
+
+                        string Code = Util.Ask("do you know the code?");
+
+                        if (Code == "45M850")
                         {
-                            if (storeInventory[i].ItemId == choice1)
+                            Util.Prompt("Well, I'll be! You found the code, so, your weapon of choice is 20 gold off!");
+                            Util.Prompt("-----------");
+                            for (int i = 0; i < storeInventory.Length - 1; i++)
                             {
-
-
-                                if (playerGold < storeInventory[i].ItemCost || playerGold <= 0 )
+                                if (storeInventory[i].ItemId == choice1)
                                 {
-                                    Util.Prompt("Sorry, it looks like ya lack the funds to pay for it, and this ain't a Soup Kitchen");
-                                }
-                                else
-                                {
-                                    //this tells the system that playergold is equal too player gold - the item cost
-                                    playerGold = playerGold - storeInventory[i].ItemCost;
 
-                                    //this declares the Temporary gold string that it is equal to the string version of player gold
-                                    tmpPlayerGoldString = playerGold.ToString();
 
-                                    //this writes down the temporary gold string for the player in their wallet for saving
-                                    File.WriteAllText(login + "Wallet.Txt", tmpPlayerGoldString);
+                                    if (playerGold < storeInventory[i].ItemCost - 20 || playerGold <= 0)
+                                    {
+                                        Util.Prompt("Sorry, it looks like ya lack the funds to pay for it, and this ain't a Soup Kitchen");
+                                    }
+                                    else
+                                    {
+                                        //this tells the system that playergold is equal too player gold - the item cost
+                                        playerGold = playerGold - (storeInventory[i].ItemCost - 20);
 
-                                    //this does the exact same for player gold but instead for the store
-                                    storeGold = storeGold + storeInventory[i].ItemCost;
+                                        //this declares the Temporary gold string that it is equal to the string version of player gold
+                                        tmpPlayerGoldString = playerGold.ToString();
 
-                                    //this ensures the temporary gold string for the store is the same as the store gold
-                                    tmpStoreGoldString = storeGold.ToString();
+                                        //this writes down the temporary gold string for the player in their wallet for saving
+                                        File.WriteAllText(login + "Wallet.Txt", tmpPlayerGoldString);
 
-                                    //this ensures that the store wallet is saved so that way it has money for the next time around
-                                    File.WriteAllText("StoreWallet.txt", tmpStoreGoldString);
+                                        //this does the exact same for player gold but instead for the store
+                                        storeGold = storeGold + (storeInventory[i].ItemCost - 20);
 
-                                    //adds the selected Item to the player inventory
-                                    playerInventory.Add(storeInventory[i]);
+                                        //this ensures the temporary gold string for the store is the same as the store gold
+                                        tmpStoreGoldString = storeGold.ToString();
 
-                                    //creates a temporary list for the store inventory to make modifications
-                                    List<Item> tmpStoreInventory;
+                                        //this ensures that the store wallet is saved so that way it has money for the next time around
+                                        File.WriteAllText("StoreWallet.txt", tmpStoreGoldString);
 
-                                    //this loads the store inventory as the temporary to get the full details
-                                    tmpStoreInventory = LoadInventory("store.csv", true);
+                                        //adds the selected Item to the player inventory
+                                        playerInventory.Add(storeInventory[i]);
 
-                                    //this grabs the full details of the temporary list
-                                    tmpStoreInventory = GetFullDetails(tmpStoreInventory.ToArray()).ToList<Item>();
-                                    
-                                    //Removes the specified Item from the temporary list
-                                    tmpStoreInventory.Remove(storeInventory[i]);
+                                        //creates a temporary list for the store inventory to make modifications
+                                        List<Item> tmpStoreInventory;
 
-                                    //transfers the temporary list back into the original array form
-                                    storeInventory = tmpStoreInventory.ToArray();
+                                        //this loads the store inventory as the temporary to get the full details
+                                        tmpStoreInventory = LoadInventory("store.csv", true);
 
-                                    //text response
-                                    Util.Prompt($"Thank ya for ya business");
+                                        //this grabs the full details of the temporary list
+                                        tmpStoreInventory = GetFullDetails(tmpStoreInventory.ToArray()).ToList<Item>();
+
+                                        //Removes the specified Item from the temporary list
+                                        tmpStoreInventory.Remove(storeInventory[i]);
+
+                                        //transfers the temporary list back into the original array form
+                                        storeInventory = tmpStoreInventory.ToArray();
+
+                                        //text response
+                                        Util.Prompt($"Thank ya for ya business");
+                                    }
                                 }
                             }
                         }
+                        else
+                        {
+                            Util.Prompt("Well That's too bad, you ain't found it yet.");
+                            Util.Prompt("-----------");
+                            for (int i = 0; i < storeInventory.Length - 1; i++)
+                            {
+                                if (storeInventory[i].ItemId == choice1)
+                                {
+
+
+                                    if (playerGold < storeInventory[i].ItemCost || playerGold <= 0)
+                                    {
+                                        Util.Prompt("Sorry, it looks like ya lack the funds to pay for it, and this ain't a Soup Kitchen");
+                                    }
+                                    else
+                                    {
+
+                                        playerGold = playerGold - storeInventory[i].ItemCost;
+                                        tmpPlayerGoldString = playerGold.ToString();
+                                        File.WriteAllText(login + "Wallet.Txt", tmpPlayerGoldString);
+                                        
+                                        storeGold = storeGold + storeInventory[i].ItemCost;
+                                        tmpStoreGoldString = storeGold.ToString();
+                                        File.WriteAllText("StoreWallet.txt", tmpStoreGoldString);
+                                        playerInventory.Add(storeInventory[i]);
+
+                                        List<Item> tmpStoreInventory;
+                                        tmpStoreInventory = LoadInventory("store.csv", true);
+                                        tmpStoreInventory = GetFullDetails(tmpStoreInventory.ToArray()).ToList<Item>();
+                                        tmpStoreInventory.Remove(storeInventory[i]);
+                                        storeInventory = tmpStoreInventory.ToArray();
+
+                                        Util.Prompt($"Thank ya for ya business");
+                                    }
+                                }
+                            }
+                        }
+                            
                         break;
 
                     case "sell":
@@ -217,11 +265,11 @@ namespace CSharpAssessRedo
         static void Help()
         {
             Util.Prompt("help shows the text below,");
-            Util.Prompt("show inventory, will display the store's stock,");
-            Util.Prompt("my wares, will show you your own inventory,");
-            Util.Prompt("buy gives you the chance of gaining some of my stock, (at a fee, of course)");
-            Util.Prompt("sell gives me the opportunity to aquire some of your spoils at market price,");
-            Util.Prompt("and quit beseeches us to part.");
+            Util.Prompt("Show inventory, will display the store's stock,");
+            Util.Prompt("My wares, will show you your own inventory,");
+            Util.Prompt("Buy gives you the chance of gaining some of my stock, (at a fee, of course, and there is the hidden discount., if you can guess the code)");
+            Util.Prompt("Sell gives me the opportunity to aquire some of your spoils at market price,");
+            Util.Prompt("and Quit beseeches us to part.");
         }
 
         static Item[] GetFullDetails(Item[] _items)
